@@ -57,6 +57,9 @@ const ACCESS_TOKEN_SECRET = process.env.API_KEY || 'developmentApiKey';
 
 const port = process.env.APP_PORT || 5000;
 
+app.get("/", (req, res) => {
+  res.json({ message: "ok" });
+});
 app.listen(port, function (error) {
     if (error) throw error
     console.log("Server created Successfully on PORT", port);
