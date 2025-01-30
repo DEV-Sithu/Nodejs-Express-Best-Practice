@@ -32,9 +32,7 @@ app.use('/v2', v2UserRoutes);
 
 // Auth
 const v1AuthRoutes = require('./routes/v1/authRoutes');
-const v2AuthRoutes = require('./routes/v2/authRoutes');
 app.use('/v1', v1AuthRoutes);
-app.use('/v2', v2AuthRoutes);
 
 const versionMiddleware = require('./middleware/versioning');
 
