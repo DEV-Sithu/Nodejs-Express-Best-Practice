@@ -40,7 +40,7 @@ const v2UserRoutes = require('./routes/v2/userRoutes');
 app.use('/v1', v1UserRoutes);
 app.use('/v2', v2UserRoutes);
 
-const versionMiddleware = require('./middlewares/versioning');
+const versionMiddleware = require('./middleware/versioning');
 
 // Versioned routes using middleware
 app.use(versionMiddleware('v1')); // Default to v1
