@@ -4,10 +4,11 @@ const bodyparser = require('body-parser');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const cors = require('cors');
+//const path = require('path');
 // const mysql = require('mysql');
 // const jwt = require('jsonwebtoken');
 // const bcrypt = require('bcrypt');
-// const path = require('path');
+
 
 // Configurations
 require('dotenv').config();

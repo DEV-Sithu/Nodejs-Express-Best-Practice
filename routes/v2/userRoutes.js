@@ -7,7 +7,7 @@ const {
     getUserByUserIdV2,
     updateUsersV2,
     deleteUserV2
-} = require('../controllers/v2/userController');
+} = require('../../controllers/v2/userController.js');
 
 router.get('/', getUsersV2); 
 router.post("/",createUserV2);

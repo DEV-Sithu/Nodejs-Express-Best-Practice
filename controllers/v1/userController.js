@@ -6,7 +6,7 @@ const {
     service_getUsersV1,
     service_updateUserV1,
     service_deleteUserV1
-  } = require("../services/v1/userServices.js");
+  } = require('/../services/v1/userServices.js');
   
   
     const createUserV1 = (req, res) => {

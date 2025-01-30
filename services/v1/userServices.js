@@ -1,6 +1,7 @@
 const pool = require("../../config/database");
 
 module.exports = {
+  
   service_createUserV1: (data, callBack) => {
     pool.query(
       `insert into user(user_name, user_password, user_role, isLogin,isRoomService,isRoom,isMenus,isExpense,isReport,isSetting,isHistory,isVoucherDelete,isVoucherEdit) 
