@@ -13,18 +13,6 @@ module.exports.createUser_v1 = async (req, res, next) => {
   }
 };
 
-module.exports.checkUser_v1 = async (req, res, next) => {
-  try {
-    const results = await userService.login_v1(req.body);
-    res.status(200).json({
-      success: 1,
-          data: results
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
 module.exports.getUserByUserId_v1 = async (req, res, next) => {
   try {
     const user_id = req.query.user_id;
@@ -65,7 +53,7 @@ module.exports.updateUsers_v1 = async (req, res, next) => {
 module.exports.deleteUser_v1 = async (req, res, next) => {
   try {
     const user_id = req.body.user_id;
-    await userService.updateUser_v1(user_id);
+    await userService.deleteUser_v1(user_id);
     res.status(200).json({
           success: 1,
           message: " deleted successfully"

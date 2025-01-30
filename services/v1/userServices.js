@@ -14,7 +14,7 @@ class UserService {
   }
 
   static async getUserByUserId_v1(id) {
-    return user.findById(userData);
+    return user.findById(id);
   }
 
   static async getUsers_v1() {
