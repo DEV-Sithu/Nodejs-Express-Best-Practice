@@ -6,10 +6,6 @@ const bodyparser = require('body-parser');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const cors = require('cors');
-//const path = require('path');
-// const mysql = require('mysql');
-// const jwt = require('jsonwebtoken');
-// const bcrypt = require('bcrypt');
 
 // express app instance
 const app = express();
@@ -28,20 +24,24 @@ app.use(rateLimit({
 require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
 
 
-// Import versioned routes
+// User 
 const v1UserRoutes = require('./routes/v1/userRoutes');
 const v2UserRoutes = require('./routes/v2/userRoutes');
-
-// Mount routes with version prefixes
 app.use('/v1', v1UserRoutes);
 app.use('/v2', v2UserRoutes);
+
+// Auth
+const v1AuthRoutes = require('./routes/v1/authRoutes');
+const v2AuthRoutes = require('./routes/v2/authRoutes');
+app.use('/v1', v1AuthRoutes);
+app.use('/v2', v2AuthRoutes);
 
 const versionMiddleware = require('./middleware/versioning');
 
 // Versioned routes using middleware
 app.use(versionMiddleware('v1')); // Default to v1
 
-app.get('/users', (req, res) => {
+app.get('/checkVersion', (req, res) => {
   if (req.version === 'v1') {
     res.send('Response from v1');
   } else if (req.version === 'v2') {
@@ -49,13 +49,12 @@ app.get('/users', (req, res) => {
   }
 });
 
-const ACCESS_TOKEN_SECRET = process.env.API_KEY || 'developmentApiKey';
-
 const port = process.env.APP_PORT || 5000;
 
 app.get("/", (req, res) => {
-  res.json({ message: "ok" });
+  res.json({ message: "Best Practice Code for Node Js Express with MySql" });
 });
+
 app.listen(port, function (error) {
     if (error) throw error
     console.log("Server created Successfully on PORT", port);
