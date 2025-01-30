@@ -1,3 +1,5 @@
+// Configurations
+require('dotenv').config();
 // import libraries
 const express = require('express');
 const bodyparser = require('body-parser');
@@ -8,12 +10,6 @@ const cors = require('cors');
 // const mysql = require('mysql');
 // const jwt = require('jsonwebtoken');
 // const bcrypt = require('bcrypt');
-
-
-// Configurations
-require('dotenv').config();
-require('./config/database');
-
 
 // express app instance
 const app = express();
