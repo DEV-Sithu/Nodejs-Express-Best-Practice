@@ -8,4 +8,4 @@ const versionMiddleware = (version) => {
     };
   };
   
-  module.exports = versionMiddleware;
+module.exports = versionMiddleware;

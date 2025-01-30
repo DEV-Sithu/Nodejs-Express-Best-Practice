@@ -1,120 +1,32 @@
-const pool = require("../../config/database");
+const user = require('../../models/v1/userModel');
 
-module.exports = {
-  
-  service_createUserV1: (data, callBack) => {
-    pool.query(
-      `insert into user
-              (user_name, user_password, user_role, 
-              isLogin,isRoomService,isRoom,isMenus,isExpense,isReport,isSetting,
-              isHistory,isVoucherDelete,isVoucherEdit) 
-              values(?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-      [
-        data.user_name,
-        data.user_password,
-        data.user_role,
-        data.isLogin,
-        data.isRoomService,
-        data.isRoom,
-        data.isMenus,
-        data.isExpense,
-        data.isReport,
-        data.isSetting,
-        data.isHistory,
-        data.isVoucherDelete,
-        data.isVoucherEdit
-
-      ],
-      (error, results, fields) => {
-        if (error) {
-          callBack(error);
-        }
-        return callBack(null, results);
-      }
-    );
-  },
-
-  service_loginV1: (data, callBack) => {
-
-    pool.query(
-      `select * from user where user_name = ? and user_password = ?`,
-      [
-        data.user_name,
-        data.user_password
-      ],
-      (error, results, fields) => {
-        if (error) {
-          callBack(error);
-        }
-       return callBack(null, results);
-      }
-    );
-  },
-
-  service_getUserByUserIdV1: (user_id, callBack) => {
-    pool.query(
-      `select * from user where user_id = ?`,
-      [user_id],
-      (error, results, fields) => {
-        if (error) {
-          callBack(error);
-        }
-        return callBack(null, results);
-      }
-    );
-  },
-
-  service_getUsersV1: callBack => {
-    pool.query(
-      `select * from user `,
-      [],
-      (error, results, fields) => {
-        if (error) {
-          callBack(error);
-        }
-        return callBack(null, results);
-      }
-    );
-  },
-
-  service_updateUserV1: (data, callBack) => {
-    pool.query(
-      `update user set user_name=?, user_password=?, user_role=?, isLogin=?,isRoomService=?,isRoom=?,isMenus=?,isExpense=?,isReport=?,isSetting=?,isHistory=?,isVoucherDelete=?,isVoucherEdit=? where user_id = ?`,
-      [
-        data.user_name,
-        data.user_password,
-        data.user_role,
-        data.isLogin,
-        data.isRoomService,
-        data.isRoom,
-        data.isMenus,
-        data.isExpense,
-        data.isReport,
-        data.isSetting,
-        data.isHistory,
-        data.isVoucherDelete,
-        data.isVoucherEdit,
-        data.user_id
-      ],
-      (error, results, fields) => {
-        if (error) {
-          callBack(error);
-        }
-        return callBack(null, results[0]);
-      }
-    );
-  },
-
-  service_deleteUserV1: (user_id, callBack) => {
-    pool.query(
-      `delete from user where user_id = ?`,
-      [user_id],
-      (error, results, fields) => {
-        if (error) {
-          callBack(error);
-        }
-        return callBack(null, results[0]);
-      }
-    );
+class UserService {
+  static async createUser_v1(userData) {
+    const existingUser = await user.findByEmail(userData.user_email);
+    if (existingUser) {
+      throw new Error('User already exists');
+    }
+    return user.create(userData);
   }
-};
+
+  static async login_v1(email,password) {
+    return user.findByAccount(email,password);
+  }
+
+  static async getUserByUserId_v1(id) {
+    return user.findById(userData);
+  }
+
+  static async getUsers_v1() {
+    return user.findAll();
+  }
+
+  static async updateUser_v1(userData) {
+    return user.update(userData);
+  }
+
+  static async deleteUser_v1(id) {
+    return user.delete(id);
+  }
+}
+module.exports = UserService;
