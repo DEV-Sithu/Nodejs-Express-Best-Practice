@@ -190,7 +190,8 @@ app.listen(port, function (error) {
 
 ```
 # အဆင့် ၈
-database.js မှာ mongodb သုံးမှာလား mysql သုံးမှာလားရွေးချယ်နိုင်ပါတယ် လောလောဆယ် mysql2 ကိုသုံးရင်ရေးနည်း
+database.js မှာ mongodb သုံးမှာလား mysql သုံးမှာလားရွေးချယ်နိုင်ပါတယ် လောလောဆယ် mysql2 ကိုသုံးရင်ရေးနည်း database connection မမိဘူးဆိုရင်မှားတတ်တာက app.js မှာ require('dotenv').config(); ရေးဖိူ့ကျန်နေလို့ 
+ app.js မှာမရေးဖစ်လဲ database.js မှာ dotenv ကို config ရေးရင်လဲအဆင်ပြေနိုင်တယ် နောက် app main entry ကနေခွဲထွက်ပြီး‌ရေးတဲ့ js တိုင်း import export လိုတယ် const တစ်ခုဆောက်ပြီးတိုင်း module.exports ထဲပြန်ထဲ့ရမယ်
 ```
 const {createPool} = require('mysql2/promise');
 require('dotenv').config();
