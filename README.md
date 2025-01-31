@@ -218,7 +218,8 @@ module.exports = pool;
 * require(ဖိုင်လမ်းကြောင်း ); ဘယ်js ဖိုင်ကိုပြန်‌ခေါသုံးမယ်လို့ဆိုလိုတာပါ
 * const user = require(ဖိုင်လမ်းကြောင်း ); user.js ဖိုင်ကို ဒီ js မှာ constant တစ်ခုအနေနဲ့သုံးမယ်လို့ဆိုလိုတာပါ
 * require ('./routes'); routes ဖိုင်က main ဖိုင်အောက်မှာလို့ဆိုလိုတာ
-* require ('../../config/database);   ../ က cd space နဲ့တူတယ် config ဖိုင်ကနေနောက်ကိုနှစ်ဆင့်ဆို main folder ကိုသိမယ်
+* require ('../config/database);   ../ က cd space နဲ့တူတယ် config ဖိုင်ကနေနောက်ကိုတစ်ဆင့်ဆို main folder ကိုသိမယ်
+* require ('../../models/v1/userModel);   userModel.js ကိုသိဖို့ main folder ကနေကြည့်ရင် models > v1 > နှစ်ဆင့် ../ ../ အဲ့လိုမျိုးမှသိမာ
 * require ('module node name') ဥပမာ express install ထားပြီး ခေါသုံးရင် require('express')
 
 # အဆင့် ၁၀
