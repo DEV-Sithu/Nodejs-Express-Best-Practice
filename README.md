@@ -285,6 +285,142 @@ class User {
 // user class ကို node module ထဲကို export လုပ်ဖို့မမေ့နဲ့ မေ့ရင်တခြား class တွေကနေခေါရင်မသိဘူး any ဖစ်နေတတ်တယ် 
 module.exports = User;
 ```
+# အဆင့် ၁၁
+Service အပိုင်းမှာရေးရမှာတွေက  userService.js  ဖိုင်ဆောက်
+```
+// usermodel ကို import လုပ်ပြီး const user လို့သတ်မှတ် ဒါဆို usermodel ထဲကfunction တွေယူသုံးလို့ရပီ
+const user = require('../../models/v1/userModel');
+
+class UserService {
+  // static method တွေဆောက်ပီး model နဲ့ controller ကြားခံလုပ်မယ် 
+  static async createUser_v1(userData) {
+    // insert လုပ်ရင် duplicate data မဖစ်အောင် စစ်ထုတ်ထားရမယ်
+    const existingUser = await user.findByEmail(userData.email);
+    if (existingUser) {
+      throw new Error('User already exists');
+    }
+    return user.create(userData);
+  }
+
+  static async login_v1(email,password) {
+    return user.findByAccount(email,password);
+  }
+
+  static async getUserByUserId_v1(id) {
+    return user.findById(id);
+  }
+
+  static async getUsers_v1() {
+    return user.findAll();
+  }
+
+  static async updateUser_v1(userData) {
+    return user.update(userData);
+  }
+
+  static async deleteUser_v1(id) {
+    return user.delete(id);
+  }
+}
+// userservice class ကို module.exports မလုပ်မိရင် controller ကနေ မသိနိုင်ပါဘူး
+module.exports = UserService;
+```
+# အဆင့် ၁၂
+controller အပိုင်း userController.js
+```
+// require file pathနဲ့ပတ်သက်ပြီးအသေးစိတ်ပြောပြထားပြီးပါပီ ပတ်လမ်းမှားရင် color highlight မလင်းလာပါဘူး link မဖစ်ပါဘူး 
+const userService  = require('../../services/v1/userServices.js');
+
+// UserController class မဆောက်ဘဲ asyn func = fun name အဲ့ function name ကို module ထဲတန်းပြီး export လုပ်လိုက်တာပါဲ
+
+
+module.exports.createUser_v1 = async (req, res, next) => {
+  try {
+    // service က‌ဒေတာကို client ဆီ json format နဲ့ ပို့တာပါ
+    const results = await userService.createUser_v1(req.body);
+    res.status(200).json({
+          success: 1,
+          data: results
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports.getUserByUserId_v1 = async (req, res, next) => {
+  try {
+    const user_id = req.query.user_id;
+    const results = await userService.getUserByUserId_v1(user_id);
+    res.status(200).json({
+      success: 1,
+          data: results
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports.getUsers_v1 = async (req, res, next) => {
+  try {
+    const results = await userService.getUsers_v1(req.body);
+    res.status(200).json({
+          success: 1,
+          data: results
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+  
+module.exports.updateUsers_v1 = async (req, res, next) => {
+  try {
+    await userService.updateUser_v1(req.body);
+    res.status(200).json({
+          success: 1,
+          message: " update successfully "
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+  
+module.exports.deleteUser_v1 = async (req, res, next) => {
+  try {
+    const user_id = req.body.user_id;
+    await userService.deleteUser_v1(user_id);
+    res.status(200).json({
+          success: 1,
+          message: " deleted successfully"
+    });
+  } catch (error) {
+    next(error);
+  }
+};   
+```  
+
+# အဆင့် ၁၃
+> Get ,Post ,Put ,PATCH, Delete
+- router တစ်ခုမှာ CRUD တစ်ခုထပ်ပိုပါလဲရတယ် ရေးရမဲ့ format လေးတွေရှိတယ်
+- (baseurl/v1/users) 
+ route အပိုင်းအတွက် userRoutes.js ရေး
+``` 
+const router = require("express").Router();
+const userController = require('../../controllers/v1/userController.js');
+const authMiddleware = require('../../middleware/authMiddleware.js');
+
+
+router.get('/users/', userController.getUsers_v1); 
+router.post("/users/",userController.createUser_v1);
+router.put("/users/",  userController.updateUsers_v1);
+router.delete("/users/", userController.deleteUser_v1);
+
+// Protected Route
+router.get("/users/id/:user_id?",authMiddleware.authenticateToken,  userController.getUserByUserId_v1);
+``` 
+
+module.exports = router;
+
+  
 
 ## Version ခွဲရေးနည်း
  > project မှာ feature အသစ်တွေထဲ့ရလို့ ရှိပြီးသား api တွေမှာ database တွေမှာ changes တွေရှိလာရင် version ခွဲထုတ်ပြီး front end တွေကို api ပြန်ပို့ရမယ် ကို့project မှာတစ်ခါထဲ folder structure လေးခွဲရေးထားမယ်ဆို version ချိန်းတဲ့အခါ အများကြီးပြင်ရေးစရာမလိုတော့ဘူး  routes ,service,model,controller folder တွေအောက်မှာ  v1 , v2 > user_model_v1.js , user_model_v2.js , စသဖြင့်ခွဲရေးထားရင် ရပီ
