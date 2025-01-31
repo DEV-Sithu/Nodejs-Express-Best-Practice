@@ -438,3 +438,21 @@ const versionMiddleware = require('./middleware/versioning');
 // လက်ရှိဘယ်versionကိုသုံးနေပီသတ်မှတ်
 app.use(versionMiddleware('v1')); // Default to v1
 ```
+# HTTP Methods များနှင့် အသုံးပြုပုံ 
+Method	အဓိပ္ပာယ်	ဥပမာ
+- GET	အချက်အလက်ရယူခြင်း	GET /users
+- POST	အသစ်ဖန်တီးခြင်း	POST /users (JSON body)
+- PUT	အရာအားလုံးကို အစားထိုးခြင်း	PUT /users/123
+- PATCH	တစ်စိတ်တစ်ပိုင်းပြင်ခြင်း	PATCH /users/123
+- DELETE	အရာကို ဖျက်ခြင်း	DELETE /users/123
+
+#  REST API တွင် အသုံးများသော Status Codes
+```
+Code	အဓိပ္ပာယ်
+200	OK (အောင်မြင်ပါသည်)
+201	Created (အသစ်ဖန်တီးပြီး)
+400	Bad Request (တောင်းဆိုမှုမှားယွင်း)
+401	Unauthorized (ခွင့်ပြုချက်မရှိ)
+404	Not Found (ရှာမတွေ့)
+500	Server Error (Server အမှား)
+```
