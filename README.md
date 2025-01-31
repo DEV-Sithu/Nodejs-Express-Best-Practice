@@ -210,3 +210,24 @@ const pool = createPool({
 module.exports = pool;
 ```
 # အဆင့် ၉
+ - Routes ( MVC , model view controller ကို url ပတ်လမ်းနဲ့ခေါသုံးနိုင်ဖို့ဖစ်တယ် controller ကိုခေါသူံးရမယ်)
+ - Controllers ( services ကဒေတာတွေကို client ဆီ json format နဲ့ ပြန်ပို့ပေးမယ် data json လား error status တွေလား
+ - Services ( model ကဒေတာကို controller နဲ့ချိတ်ဆက်ပေးမယ်)
+ - Models  ( Model object တစ်ခုဆောက်မယ် sql qurey တစ်ခါထဲရေးမယ်)
+
+## Version ခွဲရေးနည်း
+ > project မှာ feature အသစ်တွေထဲ့ရလို့ ရှိပြီးသား api တွေမှာ database တွေမှာ changes တွေရှိလာရင် version ခွဲထုတ်ပြီး front end တွေကို api ပြန်ပို့ရမယ် ကို့project မှာတစ်ခါထဲ folder structure လေးခွဲရေးထားမယ်ဆို version ချိန်းတဲ့အခါ အများကြီးပြင်ရေးစရာမလိုတော့ဘူး  routes ,service,model,controller folder တွေအောက်မှာ  v1 , v2 > user_model_v1.js , user_model_v2.js , စသဖြင့်ခွဲရေးထားရင် ရပီ
+```
+// Route တွေ ရေးရမယ်
+// User 
+const v1UserRoutes = require('./routes/v1/userRoutes');
+const v2UserRoutes = require('./routes/v2/userRoutes');
+app.use('/v1', v1UserRoutes);
+app.use('/v2', v2UserRoutes);
+
+// version ခွဲတာနဲ့ပတ်သက်ပြီးရေးဝာာ
+const versionMiddleware = require('./middleware/versioning');
+
+// လက်ရှိဘယ်versionကိုသုံးနေပီသတ်မှတ်
+app.use(versionMiddleware('v1')); // Default to v1
+```
