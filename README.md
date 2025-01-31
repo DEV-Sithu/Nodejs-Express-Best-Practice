@@ -9,6 +9,8 @@ D:\>cd \foldername
 
 # အဆင့် ၂
 Use ‘npm init -y’ for default initialization
+> npm init (npm initialization လုပ်လို့ပြောတာ
+အဲ့တာကို yes လား no လားမေးတာမို့ -y လို့ထဲ့ပေးတာ)
 
 # အဆင့် ၃
 express install လုပ်မယ်  npm install express ြပီးရင် code လို့ရိုက် vscode ကိုတန်းရောက်မယ် 
@@ -27,7 +29,7 @@ src/
 ├── validations/    # Validation schemas
 ├── tests/          # Test suites
 ├── app.js          # Main app entry
-└── server.js       # Server initialization
+└── initialization
 ```
 
 # အဆင့် ၄
@@ -56,16 +58,14 @@ app.listen(PORT, (error) =>{
 3. npm install dotenv  (Enviroment or Flavor)
 4. npm install body-parser (Parse incoming request bodies in a middleware)
 5. npm install jsonwebtoken (0auth token)
-6. npm install bcrypt (encryption)
+6. npm install bcryptjs (encryption)
 7. npm install --save-dev cross-env (NODE_ENV=production)
 8. npm i helmet --save (setting HTTP response headers for security practice)
 9. npm i express-rate-limit ( to limit repeated requests to public APIs and/or endpoints such as password reset for security practice)
-10. npm install cors (ORS-enabled for all origins for security practice)
-11. npm install morgan (HTTP logger)
-12. npm install winston (logger)      
+10. npm install cors (ORS-enabled for all origins for security practice)    
 ```
 "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^5.1.1",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
@@ -96,6 +96,8 @@ package-lock.json
 ဒီ variable တွေကို api service မှာ ပြန်ပြီး assign လုပ်ရမယ် 
 ```   
 NODE_ENV=development
+JWT_Secret_Token= yourtokenhere
+JWT_ExpireIn = 1hr
 API_KEY=api_key
 APP_PORT=3000
 DB_PORT=3000
@@ -104,7 +106,9 @@ DB_USER =db_user
 DB_PASS=db_password
 MYSQL_DB=db_name
 ```
-package.json ထဲက script မှာ
+JWT Token Generator [https://jwtsecret.com/generate]
+
+## package.json ထဲက script မှာ
 ```  
  "scripts": {
     "start": "nodemon app.js",
@@ -147,4 +151,3 @@ app.listen(port, function (error) {
   });
 ```
 
-JWT Token Generator [https://jwtsecret.com/generate]
