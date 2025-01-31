@@ -214,7 +214,7 @@ module.exports = pool;
  - Controllers ( services ကဒေတာတွေကို client ဆီ json format နဲ့ ပြန်ပို့ပေးမယ် data json လား error status တွေလား
  - Services ( model ကဒေတာကို controller နဲ့ချိတ်ဆက်ပေးမယ်)
  - Models  ( Model object တစ်ခုဆောက်မယ် sql qurey တစ်ခါထဲရေးမယ်)
-   
+   ---
 * require(ဖိုင်လမ်းကြောင်း ); ဘယ်js ဖိုင်ကိုပြန်‌ခေါသုံးမယ်လို့ဆိုလိုတာပါ
 * const user = require(ဖိုင်လမ်းကြောင်း ); user.js ဖိုင်ကို ဒီ js မှာ constant တစ်ခုအနေနဲ့သုံးမယ်လို့ဆိုလိုတာပါ
 * require ('./routes'); routes ဖိုင်က main ဖိုင်အောက်မှာလို့ဆိုလိုတာ
