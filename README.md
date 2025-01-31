@@ -95,16 +95,15 @@ package-lock.json
 ```  
 ဒီ variable တွေကို api service မှာ ပြန်ပြီး assign လုပ်ရမယ် 
 ```   
-NODE_ENV=development
-JWT_Secret_Token= yourtokenhere
-JWT_ExpireIn = 1hr
-API_KEY=api_key
+NODE_ENV=localhost
+JWT_SECRET=e3b6846750214cf67d35ae5be45750a96a2543dac426c162aa6f04e5ec5f0010
+JWT_EXPIRES_IN=1h
 APP_PORT=3000
-DB_PORT=3000
-DB_HOST=dbhost
-DB_USER =db_user
-DB_PASS=db_password
-MYSQL_DB=db_name
+DB_PORT=3306
+DB_HOST=localhost
+DB_USER =root
+DB_PASS=
+MYSQL_DB=dbname
 ```
 JWT Token Generator [https://jwtsecret.com/generate]
 
@@ -118,7 +117,8 @@ JWT Token Generator [https://jwtsecret.com/generate]
     "test": "echo \"Error: no test specified\" && exit 1"
   },
 ```           
-run ချင်ရင် ဘယ်ဟာနဲ့ ရွေးပြီး run မလဲဖစ်မယ် node app.js ကို flavor ခွဲပေးထားတာ
+run ချင်ရင် ဘယ်ဟာနဲ့ ရွေးပြီး run မလဲဖစ်မယ် start:localhost လေးကိုcursorချ Run scriptနဲ့ရွေး errorတတ်တာဖစ်ဖစ် server stopချင်ဖစ်ဖစ် delete icon နိုပ်
+ node app.js ကို flavor ခွဲပေးထားတာ
 
 # အဆင့် ၇ 
 app.js မှာရေး
