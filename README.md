@@ -215,6 +215,71 @@ module.exports = pool;
  - Services ( model ကဒေတာကို controller နဲ့ချိတ်ဆက်ပေးမယ်)
  - Models  ( Model object တစ်ခုဆောက်မယ် sql qurey တစ်ခါထဲရေးမယ်)
 
+# အဆင့် ၁၀
+Model class (Dao တွေဖစ်တဲ့ Data Object) ဆောက်ရမယ် ဒါပေမဲ့ Java လိုတော့့မဟုတ်ဘုး field name တွေပေးဖို့မလိုဘူး sql query logic တွေစု‌ရေးထားရင်ရပီ  findAll() , findOne() , insert() , update(), delete()
+စတဲ့ function တွေကို ဘယ် service တွေကမဆို ဘုံယူသုံးနိုင််တယ် အဲ့လိုအားသာချက်တွေရှိလာမယ် 
+```
+const pool = require("../../config/database");
+
+class User {
+  // insert query ရေးတာ pool.execute()
+  static async create(data) {
+    const result = await pool.execute(
+     `insert into user
+              (user_name, password, email, role) 
+              values(?,?,?,?)`,
+      [
+        data.user_name,
+        data.password,
+        data.email,
+        data.role
+      ]
+    );
+    return result.insertId;
+  }
+  // [rows] နဲ့ပြန်မဖမ်းချင်ရင် return တန်းပြန်ပေးလဲရတယ်
+  static async findAll() { 
+    const [rows] = await pool.query('SELECT * FROM user');
+    return rows;
+  }
+  // findViewById ရေးနည်း  [rows] နဲ့ဖမ်းရမယ် data တစ်ခုဘဲလိုတာမို့ rows[0] ခန်းပြန်တာ
+  static async findById(id) {
+    const [rows] = await pool.execute('SELECT * FROM user WHERE user_id = ?', [id]);
+    return rows[0];
+  }
+
+  static async findByAccount(email,password) {
+    const [rows] = await pool.execute('SELECT * FROM user WHERE email= ? and password=?', [email,password]);
+    return rows[0];
+  }
+  static async findByEmail(email) {
+    const [rows] = await pool.execute('SELECT * FROM user WHERE email = ?', [email]);
+    return rows[0];
+  }
+
+  static async update( data) {
+    await pool.execute(
+        `update user set user_name=?, password=?, role=?, email=? where user_id = ?`,
+      [
+        data.user_name,
+        data.password,
+        data.role,
+        data.email,
+        data.user_id
+      ],
+    );
+    return true;
+  }
+
+  static async delete(id) {
+    await pool.execute('DELETE FROM user WHERE user_id = ?', [id]);
+    return true;
+  }
+}
+// user class ကို node module ထဲကို export လုပ်ဖို့မမေ့နဲ့ မေ့ရင်တခြား class တွေကနေခေါရင်မသိဘူး any ဖစ်နေတတ်တယ် 
+module.exports = User;
+```
+
 ## Version ခွဲရေးနည်း
  > project မှာ feature အသစ်တွေထဲ့ရလို့ ရှိပြီးသား api တွေမှာ database တွေမှာ changes တွေရှိလာရင် version ခွဲထုတ်ပြီး front end တွေကို api ပြန်ပို့ရမယ် ကို့project မှာတစ်ခါထဲ folder structure လေးခွဲရေးထားမယ်ဆို version ချိန်းတဲ့အခါ အများကြီးပြင်ရေးစရာမလိုတော့ဘူး  routes ,service,model,controller folder တွေအောက်မှာ  v1 , v2 > user_model_v1.js , user_model_v2.js , စသဖြင့်ခွဲရေးထားရင် ရပီ
 ```
