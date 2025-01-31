@@ -2,7 +2,7 @@ const user = require('../../models/v1/userModel');
 
 class UserService {
   static async createUser_v1(userData) {
-    const existingUser = await user.findByEmail(userData.user_email);
+    const existingUser = await user.findByEmail(userData.email);
     if (existingUser) {
       throw new Error('User already exists');
     }

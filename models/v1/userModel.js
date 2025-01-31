@@ -18,21 +18,22 @@ class User {
   }
 
   static async findAll() { 
-    return await pool.query('SELECT * FROM user');
+    const [rows] = await pool.query('SELECT * FROM user');
+    return rows;
   }
 
   static async findById(id) {
-    const result = await pool.execute('SELECT * FROM user WHERE user_id = ?', [id]);
-    return result[0];
+    const [rows] = await pool.execute('SELECT * FROM user WHERE user_id = ?', [id]);
+    return rows[0];
   }
 
   static async findByAccount(email,password) {
-    const result = await pool.execute('SELECT * FROM user WHERE email= ? and password', [email,password]);
-    return result[0];
+    const [rows] = await pool.execute('SELECT * FROM user WHERE email= ? and password=?', [email,password]);
+    return rows[0];
   }
   static async findByEmail(email) {
-    const result = await pool.execute('SELECT * FROM user WHERE email = ?', [email]);
-    return result[0];
+    const [rows] = await pool.execute('SELECT * FROM user WHERE email = ?', [email]);
+    return rows[0];
   }
 
   static async update( data) {
