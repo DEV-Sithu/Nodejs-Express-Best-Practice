@@ -123,31 +123,70 @@ run ချင်ရင် ဘယ်ဟာနဲ့ ရွေးပြီး run 
 # အဆင့် ၇ 
 app.js မှာရေး
 ```   
+// dot env variableတွေimportလုပ်တာ
+require('dotenv').config();
+// app.js ထဲမာဒီjsမှာခသူံးမာလောက်ပဲimport
 const express = require('express');
-const bodyParser = require('body-parser');
-const mysql = require('mysql');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const path = require('path');
+const bodyparser = require('body-parser');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const cors = require('cors');
 
-// express app instance
+// express app serverတစ်ခုဆောက်ပီ
 const app = express();
 
+// middleware 
 app.use(express.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
+app.use(helmet());
+app.use(cors());
+app.use(rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+}));
 
-require('dotenv').config({
-    path: path.resolve(__dirname, `.env.${process.env.NODE_ENV || 'development'}`),
-  });
+//env ဖိုင်ကွဲတွေထဲကမှ runထားတဲ့nodeရဲ့variable
+require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
 
-const ACCESS_TOKEN_SECRET = process.env.API_KEY || 'developmentApiKey';
+// Route တွေ ရေးရမယ်
+// User 
+const v1UserRoutes = require('./routes/v1/userRoutes');
+const v2UserRoutes = require('./routes/v2/userRoutes');
+app.use('/v1', v1UserRoutes);
+app.use('/v2', v2UserRoutes);
+
+// Auth
+const v1AuthRoutes = require('./routes/v1/authRoutes');
+app.use('/v1', v1AuthRoutes);
+
+// version ခွဲတာနဲ့ပတ်သက်ပြီးရေးဝာာ
+const versionMiddleware = require('./middleware/versioning');
+
+// လက်ရှိဘယ်versionကိုသုံးနေပီသတ်မှတ်
+app.use(versionMiddleware('v1')); // Default to v1
+
+// api ကနေလဲ checkversionနဲ့စစ်ရင်သိရအောင်
+app.get('/checkVersion', (req, res) => {
+  if (req.version === 'v1') {
+    res.send('Response from v1');
+  } else if (req.version === 'v2') {
+    res.send('Response from v2');
+  }
+});
 
 const port = process.env.APP_PORT || 5000;
 
+// serverအလုပ်လုပ်မလုပ် စစ်တာ
+app.get("/", (req, res) => {
+  res.json({ message: "Best Practice Code for Node Js Express with MySql" });
+});
+
+// app ကို တောက်လျောက် run ခိုင်းထားတာ
 app.listen(port, function (error) {
     if (error) throw error
     console.log("Server created Successfully on PORT", port);
   });
+
 ```
 
